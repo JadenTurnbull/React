@@ -1,25 +1,34 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from 'react';
+import Products from './Products' ;
+import {Button} from 'react-bootstrap';
+import Rating from './Rating';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends Component {
+
+  formatName (user) {
+    return user.firstName + ' ' + user.LastName;
+  }
+
+    render() {
+      const isValid = true;
+      const products = ["Learning React", "Pro React", "Beginning React"];
+      const listProducts = products.map((product) =>
+      <li key={product.toString()}>{product}</li>
+      );
+
+      return (
+        <div>
+          <Products />
+          <ul>{listProducts}</ul>
+          <Button variant="primary" disabled={isValid}>Default</Button>
+          <Rating rating="1"/>
+          <Rating rating="2"/>
+          <Rating rating="3"/>
+          <Rating rating="4"/>
+          <Rating rating="5"/>
+        </div>
+      );
+  }
 }
 
 export default App;
