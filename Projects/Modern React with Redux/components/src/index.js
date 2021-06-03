@@ -11,7 +11,7 @@ const App = () => {
             <ApprovalCard > 
                 <CommentDetail
                     author={faker.name.firstName()}
-                    timeAgo={"Today at 4:20PM"}
+                    timeAgo="Today at 4:20PM"
                     message="Well Done!"
                     avatar={faker.image.avatar()}
                 />

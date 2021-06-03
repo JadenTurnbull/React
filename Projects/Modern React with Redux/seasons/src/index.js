@@ -1,15 +1,44 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import SeasonDisplay from './SeasonDisplay';
+import Spinner from './Spinner';
 
 class App extends React.Component {
-    render() {
+    constructor(props) {
+        super(props);
 
+        this.state = { lat: null, errorMessage: '' };
+
+        
+    }
+
+    state = { lat: null, errorMessage: '' };
+
+    componentDidMount() {
         window.navigator.geolocation.getCurrentPosition(
-            (position) => console.log(position),
-            (err) => console.log(err)   
+            position => this.setState({ lat: position.coords.latitude}),
+            err => this.setState({ errorMessage: err.message })    
         );
+    }
 
-        return <div>Latitude: </div>
+    renderContent() {
+        if (this.state.errorMessage && !this.state.lat) {
+            return <div>Error: {this.state.errorMessage}</div>
+        }
+
+        if (!this.state.errorMessage && this.state.lat) {
+            return <SeasonDisplay lat={this.state.lat} />
+        }
+
+        return <Spinner message=" Waiting for permission... " />;
+    }
+
+    render() {
+        return(
+            <div className="border">
+                {this.renderContent()}
+            </div>
+        );
     }
 }
 
