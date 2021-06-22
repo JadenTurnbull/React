@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
 const Search = () => {
-    const [term, setTerm] = useState('programming');
+    const [term, setTerm] = useState('programming ');
     const [results, setResults] = useState([]);
 
     useEffect(() => {
@@ -11,8 +11,8 @@ const Search = () => {
                 params: {
                     action: 'query',
                     list: 'search',
-                    origin:'*',
-                    format:'json',
+                    origin: '*',
+                    format: 'json',
                     srsearch: term
                 },
             });
@@ -20,19 +20,38 @@ const Search = () => {
             setResults(data.query.search)
         };
 
-        
-        
+        if (term && !results.length) {
             search();
+        } else {
+            const timeoutId = setTimeout(() => {
+                if (term) {
+                    search();
+                }
+            }, 500);
+
+            return () => {
+                clearTimeout(timeoutId);
+            };
+        }
+
+
     }, [term]);
 
     const renderedResults = results.map((result) => {
         return (
             <div key={result.pageid} className="item">
+                <div className="right floated content">
+                    <a
+                        className="ui button"
+                        href={`https://en.wikipedia.org?curid=${result.pageid}`}
+                    >
+                        GO</a>
+                </div>
                 <div className="content">
                     <div className="header">
                         {result.title}
                     </div>
-                    {result.snippet}
+                    <span dangerouslySetInnerHTML={{ __html: result.snippet }}></span>
                 </div>
             </div>
         );
@@ -46,7 +65,7 @@ const Search = () => {
                     <input
                         value={term}
                         onChange={e => setTerm(e.target.value)}
-                        className="input" 
+                        className="input"
                     />
                 </div>
             </div>
