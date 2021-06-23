@@ -8,7 +8,7 @@ const Convert = ({ language, text }) => {
     useEffect(() => {
         const timerId = setTimeout(() => {
             setDebouncedText(text);
-        }, 500)
+        }, 500);
 
         return() => {
             clearTimeout(timerId);
@@ -24,7 +24,7 @@ const Convert = ({ language, text }) => {
                     params: {
                         q: debouncedText,
                         target: language.value,
-                        key: 'AIzaSyCHUCmpR7cT_yDFHC98CZJy2LTms-IwDlM'
+                        key: 'AIzaSyCHUCmpR7cT_yDFHC98CZJy2LTms-IwDlM',
                     },
                 }
             );
@@ -35,9 +35,11 @@ const Convert = ({ language, text }) => {
         doTranslation();
     }, [language, debouncedText]);
 
-    return <div>
-        <h1 className="ui header">{translated}</h1>
-    </div>;
+    return (
+        <div>
+          <h1 className="ui header">{translated}</h1>
+        </div>
+      );
 };
 
 export default Convert;
