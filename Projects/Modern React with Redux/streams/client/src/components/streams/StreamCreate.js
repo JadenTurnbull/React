@@ -1,8 +1,10 @@
 import React from 'react';
 import { Field, reduxForm } from 'redux-form';
+import { connect } from 'react-redux';
+import { createStream } from '../../actions';
 
 class StreamCreate extends React.Component {
-  renderError({ error, touched}) {
+  renderError({ error, touched }) {
     if (touched && error) {
       return (
         <div className="ui error message">
@@ -13,22 +15,21 @@ class StreamCreate extends React.Component {
   }
 
   renderInput = ({ input, label, meta }) => {
-      const className = `field ${meta.error && meta.touched ? 'error': ''}`;
+      const className = `field ${meta.error && meta.touched ? 'error' : ''}`;
     return (
       <div className={className}>
         <label>{label}</label>
-        <input {...input} autoComplete="off"/>
+        <input {...input} autoComplete="off" />
         {this.renderError(meta)}
       </div>
     );
-  }
+  };
 
-  onSubmit(formValues) {
-    console.log(formValues)
-  }
+  onSubmit = formValues => {
+    this.props.createStream(formValues);
+  };
 
   render() {
-    console.log(this.props);
     return (
       <form 
         onSubmit={this.props.handleSubmit(this.onSubmit)} 
@@ -36,7 +37,7 @@ class StreamCreate extends React.Component {
       >
         <Field name="title" component={this.renderInput} label="Enter Title" />
         <Field
-          name="descrpition" 
+          name="description" 
           component={this.renderInput} 
           label="Enter Description" 
         />
@@ -46,7 +47,7 @@ class StreamCreate extends React.Component {
   }
 }
 
-const validate = (formValues) => {
+const validate = formValues => {
   const errors = {};
 
   if (!formValues.title) {
@@ -54,13 +55,18 @@ const validate = (formValues) => {
   }
 
   if (!formValues.description) {
-    errors.description = 'Description required'
+    errors.description = 'Description required';
   }
 
   return errors;
-}
+};
 
-export default reduxForm({
+const formWrapped = reduxForm({
   form: 'streamCreate',
   validate
 })(StreamCreate);
+
+export default connect(
+  null,
+  { createStream }
+  )(formWrapped);
