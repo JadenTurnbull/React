@@ -10,12 +10,6 @@
       "title": "stream",
       "description": "stream edit test",
       "id": 3
-    },
-    {
-      "title": "streams 2",
-      "description": "this change was made by patch request",
-      "userId": "117705406492549201692",
-      "id": 4
     }
   ]
 }
